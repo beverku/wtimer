@@ -1,0 +1,17 @@
+/* fonts css stylesheet */
+
+@font-face {
+  font-family: "DigitalDream";
+  src: url("./Digital-dream/DIGITALDREAM.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Digital7";
+  src: url("./style-7_digital-7/digital-7.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: "Digital7Mono";
+  src: url("./style-7_digital-7/digital-7 (mono).ttf") format('truetype');
+}
+
