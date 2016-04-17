@@ -1,9 +1,9 @@
 {
-  "name": "angular-seed",
+  "name": "wtimer",
   "private": true,
   "version": "0.0.0",
-  "description": "A starter project for AngularJS",
-  "repository": "https://github.com/angular/angular-seed",
+  "description": "Angular based WOD timer",
+  "repository": "https://github.com/beverku/wtimer",
   "license": "MIT",
   "devDependencies": {
     "bower": "^1.3.1",
