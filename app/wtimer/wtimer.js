@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.wtimer', ['ngRoute'])
+angular.module('myApp.wtimer', ['ngRoute', 'ui.bootstrap'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/wtimer', {
@@ -9,6 +9,11 @@ angular.module('myApp.wtimer', ['ngRoute'])
   });
 }])
 
-.controller('WtimerCtrl', [function() {
+.controller('WtimerCtrl', WTimerCtlr);
+//.controller('WtimerCtrl', [function() {
+//$scope.hours = [0,99];
+//}]);
 
-}]);
+function WTimerCtlr() {
+	this.hours = [0,99];
+};
