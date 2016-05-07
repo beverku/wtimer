@@ -1,72 +1,54 @@
-<!-- Uses the cover.css from Bootstrap -->    
+<!-- Uses the cover.css from Bootstrap -->
 <body>
-<div class="site-wrapper">
-	<div class="site-wrapper-inner">
+    <div class="site-wrapper">
+        <div class="site-wrapper-inner">
+            <div class="cover-container">
+                <div class="masthead clearfix">
+                    <div class="inner">
+                        <h3 class="masthead-brand">Timer Type</h3>
+                        <nav>
+                            <ul class="nav masthead-nav">
+                                <li class="active"><a href="#">For Time</a></li>
+                                <li><a href="#">AMRAP</a></li>
+                                <li><a href="#">Tabata</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
 
-        <div class="cover-container">
+                <div class="inner cover">
+                    <h1 class="cover-heading">WOD Timer &nbsp;</h1>
+                    <div class="lead timer">99:01</div>
+                    <p class="lead">
+                        <a href="" class="btn btn-lg btn-default" ng-click="vm.startTimer()">3..2..1..Go</a>
+                        <a href="" class="btn btn-lg btn-default">Round</a>
+                        <a href="" class="btn btn-lg btn-default" ng-click="vm.stopTimer()">Stop</a>
+                        <a href="" class="btn btn-lg btn-default">Reset</a>
+                    </p>
 
-          <div class="masthead clearfix">
-            <div class="inner">
-              <h3 class="masthead-brand">Timer Type</h3>
-              <nav>
-                <ul class="nav masthead-nav">
-                  <li class="active"><a href="#">For Time</a></li>
-                  <li><a href="#">AMRAP</a></li>
-                  <li><a href="#">Tabata</a></li>
-                </ul>
-              </nav>
+                    <div class="lead container">
+                        <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#settings">Timer Settings</button>
+                        <div id="settings" class="collapse">
+                            <form class="form-inline">
+                                <label for="hoursSelect">Hours:</label>
+                                <div class="form-group">
+                                    <select class="form-control" id="hoursSelect">
+                                        <option ng-repeat="n in [0,1,2,3,4,5]">{{n}}</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="mastfoot">
+                        <div class="inner">
+                            <p>Project home: <a href="http://github.com/beverku/wtimer">wtimer</a>.</p><p>version: <span app-version></span></p>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
-          </div>
-
-          <div class="inner cover">
-            <h1 class="cover-heading">WOD Timer &nbsp;</h1>
-			<div class="lead timer">99:01</div>
-            <p class="lead">
-              <a href="#" class="btn btn-lg btn-default">3..2..1..Go</a>
-              <a href="#" class="btn btn-lg btn-default">Round</a>
-              <a href="#" class="btn btn-lg btn-default">Stop</a>
-              <a href="#" class="btn btn-lg btn-default">Reset</a>
-            </p>
-
-<!--
-<uib-accordion close-others="oneAtATime">
-    <uib-accordion-group is-open="status.open">
-      <uib-accordion-heading> Timer Settings <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i> </uib-accordion-heading>
-		<form class="form-inline">
-  			<label for="hoursSelect">Hours:</label>
-			<div class="form-group">
-				<select class="form-control" id="hoursSelect">
-					<option ng-repeat="n in [0,1,2,3,4,5]">{{n}}</option>
-				</select>
-			</div>
-		</form>
-    </uib-accordion-group>
-  </uib-accordion>
--->
-
-			<div class="lead container">
-			    <button type="button" class="btn btn-link" data-toggle="collapse" data-target="#settings">Timer Settings</button>
-				<div id="settings" class="collapse">
-					<form class="form-inline">
-						<label for="hoursSelect">Hours:</label>
-						<div class="form-group">
-							<select class="form-control" id="hoursSelect">
-								<option ng-repeat="n in [0,1,2,3,4,5]">{{n}}</option>
-							</select>
-						</div>
-					</form>
-				</div>
-			</div>
-
-          <div class="mastfoot">
-            <div class="inner">
-              <p>Project home: <a href="http://github.com/beverku/wtimer">wtimer</a>.</p><p>version: <span app-version></span></p>
-            </div>
-          </div>
 
         </div>
-
-      </div>
-
-    </div>
-</body>
+    </body>
