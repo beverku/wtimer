@@ -18,7 +18,10 @@
 
                 <div class="inner cover">
                     <h1 class="cover-heading">WOD Timer &nbsp;</h1>
-                    <div class="lead timer">99:01</div>
+                    <!--
+                    <div class="lead timer">{{vm.displayTime.hours}}:{{vm.displayTime.minutes}}:{{vm.displayTime.seconds}}.{{vm.displayTime.hundreths}}</div>
+                    -->
+                    <div class="lead timer">{{vm.displayTime}}</div>
                     <p class="lead">
                         <a href="" class="btn btn-lg btn-default" ng-click="vm.startTimer()">3..2..1..Go</a>
                         <a href="" class="btn btn-lg btn-default">Round</a>

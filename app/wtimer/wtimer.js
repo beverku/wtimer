@@ -11,88 +11,116 @@ angular.module('myApp.wtimer', ['ngRoute', 'ui.bootstrap'])
   });
 }])
 
-//.controller('WtimerCtrl', ['$scope', '$interval', WTimerCtlr]);
-.controller('WtimerCtrl', ['$scope', '$interval', 
+.controller('WtimerCtrl', ['$scope', '$interval', WTimerCtlr]);
+
 
 function WTimerCtlr($scope, $interval) {
-    console.log("WTimerCtlr() function being called");
-    console.trace();
+    //console.log("WTimerCtlr() function being called");
     var vm = this;
 
     vm.availableHours = [0,99];
     vm.availableMinutes = [0,59];
     vm.availableSeconds = [0,59];
 
-    vm.totalTime = 0;
+    vm.totalElapsed = 0;
     vm.startTime = 0;
-    this.intervalPromise;
-    this.testval = "init";
+    vm.intervalPromise;
+
+    vm.displayTime = '00:00.00';
+    /*
+    vm.displayTime = {
+        hours: '00',
+        minutes: '00',
+        seconds: '00',
+        hundreths: '00',
+    };
+    */
+    updateDisplayTime(vm);
+
     //TODO: what if running - grey out?
     //TODO: function below?
     //TODO: overflow?
-    this.startTimer = function() {
-    //vm.startTimer = function() {
-        console.log("startTimer");
-        console.log(this.intervalPromise);
+    //TODO: restart
+    vm.startTimer = function() {
+        //console.log("startTimer");
 
-        console.log(this.testval);
-        this.testval = "start";
-        console.log(this.testval);
-
-        if ( angular.isDefined(this.intervalPromise) ) return;
+        //already started?
+        if ( angular.isDefined(vm.intervalPromise) ) return;
 
         vm.startTime = new Date().getTime();
-        console.log("vm.startTime=" + vm.startTime);
 
         //TODO: option necessary?
-         this.intervalPromise = $interval(function () { update(vm) }, 10000);
-         console.log(this.intervalPromise);
+         vm.intervalPromise = $interval(function () { intervalFired(vm) }, 10);
     }
 
-    //TODO: what if it's not running?
     vm.stopTimer = function() {
         //TODO: this can be refactored with update above
-        console.log("stopTimer");
-        console.log(this.testval);
-        this.testval = "stop";
-        console.log(this.testval);
+        //console.log("stopTimer");
+
+        //not running?
+        if ( !angular.isDefined(vm.intervalPromise) ) return;
+
+        //Slight race condition here - where the interval may update 
+        //But it will be replaced with the actual stop time from this now
         var now = new Date().getTime();
 
-        console.log(this.intervalPromise);
-        if (angular.isDefined(this.intervalPromise)) {
-            $interval.cancel(this.intervalPromise);
-            this.intervalPromise = undefined;
-        }
-        else {
-            console.log("it's not defined");
-        }
+        //cancel interval
+        $interval.cancel(vm.intervalPromise);
+        vm.intervalPromise = undefined;
 
-        var elapsed = now - vm.startTime;
-        console.log("elapsed=" + elapsed);
-        vm.totalTime += elapsed;
-        console.log("vm.totalTime=" + vm.totalTime);
+
+        //update
+        updateElapsedTime(vm, now);
     }
 
     $scope.$on('$destroy', function() {
-        console.log("destroy called");
+        //console.log("destroy called");
         // Make sure that the interval is destroyed too
         $scope.stopTimer();
     });
-//};
-}]);
+};
 
-function update(vm) {
-    //console.log("update");
+function intervalFired(vm) {
     var now = new Date().getTime();
+    updateElapsedTime(vm, now);
+};
+
+//TODO: if we want stop/restart we need to add something
+function updateElapsedTime(vm, now) {
+    //console.log("update");
     var elapsed = now - vm.startTime;
     console.log("update elapsed=" + elapsed);
-    vm.totalTime += elapsed;
-    //console.log("vm.totalTime=" + vm.totalTime);
-}
+    vm.totalElapsed = elapsed;
+    updateDisplayTime(vm);
+};
 
-function startTimer() {
-    console
-    .log("startTimer");
-}
+
+function updateDisplayTime(vm) {
+    const hours = Math.floor( vm.totalElapsed / 3600000 );
+    const minutes = Math.floor( vm.totalElapsed / 60000 ) % 60;
+    const seconds = Math.floor( vm.totalElapsed / 1000 ) % 60;
+    const hundreths = Math.floor( vm.totalElapsed / 10 ) % 100;
+
+    //Careful this breaks if number is bigger than the pad - but that can't happen here
+    const sHours = ("0000" + hours).slice(-2);
+    const sMinutes = ("0000" + minutes).slice(-2);
+    const sSeconds = ("0000" + seconds).slice(-2);
+    const sHundreths = ("0000" + hundreths).slice(-2);
+
+    vm.displayTime = '';
+    if(hours >= 1) {
+        vm.displayTime = `${sHours}:`;
+    }
+    vm.displayTime += `${sMinutes}:${sSeconds}.${sHundreths}`;
+
+    /* TODO - this may be a better way if we want to allow the user to tune the diplay
+    vm.displayTime.hours = hours;
+    vm.displayTime.minutes = (minutes < 10 ? `0${minutes}` : minutes) ;
+    vm.displayTime.seconds = (seconds < 10 ? `0${seconds}` : seconds) ;
+    vm.displayTime.hundreths = (hundreths < 10 ? `0${hundreths}` : hundreths) ;
+    */
+
+    //console.log(vm.displayTime);
+};
 
 
