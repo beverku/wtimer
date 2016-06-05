@@ -76,6 +76,13 @@ function WTimerCtlr($scope, $interval) {
         updateElapsedTime(vm, now);
     }
 
+    vm.resetTimer = function() {
+        vm.stopTimer();
+
+        vm.totalElapsed = 0;
+        updateDisplayTime(vm);
+    }
+
     $scope.$on('$destroy', function() {
         //console.log("destroy called");
         // Make sure that the interval is destroyed too
