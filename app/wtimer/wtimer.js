@@ -90,10 +90,10 @@ function intervalFired(vm) {
 
 //TODO: if we want stop/restart we need to add something
 function updateElapsedTime(vm, now) {
-    //10 Second Count Down Timer before starting real time
+    // 10 Second Count Down Timer before starting real time
     if(!vm.preStartComplete) {
         var preTimeElapsed = 10000 - (now - vm.preStartTime);
-        vm.totalElapsed = preTimeElapsed;
+        vm.totalElapsed = preTimeElapsed + 1000;
         updateDisplayTime(vm);
 
         if(preTimeElapsed <= 0) {
@@ -120,13 +120,16 @@ function updateDisplayTime(vm) {
     const sHours = ("0000" + hours).slice(-2);
     const sMinutes = ("0000" + minutes).slice(-2);
     const sSeconds = ("0000" + seconds).slice(-2);
-    const sHundreths = ("0000" + hundreths).slice(-2);
+    //const sHundreths = ("0000" + hundreths).slice(-2);
+    //const sTenths = sHundreths % 10;
 
     vm.displayTime = '';
     if(hours >= 1) {
         vm.displayTime = `${sHours}:`;
     }
-    vm.displayTime += `${sMinutes}:${sSeconds}.${sHundreths}`;
+    //vm.displayTime += `${sMinutes}:${sSeconds}.${sHundreths}`;
+    //vm.displayTime += `${sMinutes}:${sSeconds}.${sTenths}`;
+    vm.displayTime += `${sMinutes}:${sSeconds}`;
 
     /* TODO - this may be a better way if we want to allow the user to tune the diplay
     vm.displayTime.hours = hours;
