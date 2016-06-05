@@ -15,13 +15,14 @@ angular.module('myApp.wtimer', ['ngRoute', 'ui.bootstrap'])
 
 
 function WTimerCtlr($scope, $interval) {
-    //console.log("WTimerCtlr() function being called");
     var vm = this;
 
     vm.availableHours = [0,99];
     vm.availableMinutes = [0,59];
     vm.availableSeconds = [0,59];
 
+    vm.preStartComplete = false;
+    vm.preStartTime = 0;
     vm.totalElapsed = 0;
     vm.startTime = 0;
     vm.intervalPromise;
@@ -47,7 +48,9 @@ function WTimerCtlr($scope, $interval) {
         //already started?
         if ( angular.isDefined(vm.intervalPromise) ) return;
 
-        vm.startTime = new Date().getTime();
+        vm.preStartComplete = false;
+        vm.preStartTime = new Date().getTime();
+        //vm.startTime = new Date().getTime();
 
         //TODO: option necessary?
          vm.intervalPromise = $interval(function () { intervalFired(vm) }, 10);
@@ -87,11 +90,23 @@ function intervalFired(vm) {
 
 //TODO: if we want stop/restart we need to add something
 function updateElapsedTime(vm, now) {
-    //console.log("update");
-    var elapsed = now - vm.startTime;
-    console.log("update elapsed=" + elapsed);
-    vm.totalElapsed = elapsed;
-    updateDisplayTime(vm);
+    //10 Second Count Down Timer before starting real time
+    if(!vm.preStartComplete) {
+        var preTimeElapsed = 10000 - (now - vm.preStartTime);
+        vm.totalElapsed = preTimeElapsed;
+        updateDisplayTime(vm);
+
+        if(preTimeElapsed <= 0) {
+            //Start real time
+            vm.startTime = new Date().getTime();
+            vm.preStartComplete = true;
+        }
+    }
+    else {
+        var elapsed = now - vm.startTime;
+        vm.totalElapsed = elapsed;
+        updateDisplayTime(vm);
+    }
 };
 
 
@@ -120,7 +135,6 @@ function updateDisplayTime(vm) {
     vm.displayTime.hundreths = (hundreths < 10 ? `0${hundreths}` : hundreths) ;
     */
 
-    //console.log(vm.displayTime);
 };
 
 
